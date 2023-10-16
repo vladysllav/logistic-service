@@ -20,3 +20,4 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+# daskdlsandhascvpqwebvwep'vbwe'vpwe  bv  pwevewnlomfwek;f,wefwefwefef32222222222222222222222222222222222222222222222222222222222222222222
