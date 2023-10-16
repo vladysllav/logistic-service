@@ -9,7 +9,7 @@ repos:
       - id: detect-private-key
       - id: check-added-large-files
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.9.1
     hooks:
       - id: black
   - repo: https://github.com/pycqa/isort
@@ -18,6 +18,13 @@ repos:
       - id: isort
 
   - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
+    rev: 6.1.0
     hooks:
       - id: flake8
+#        additional_dependencies:
+#          - flake8-bugbear
+#          - flake8-builtins
+#          - flake8-coding
+#          - flake8-import-order
+#          - flake8-polyfill
+#          - flake8-quotes
