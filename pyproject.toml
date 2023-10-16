@@ -39,5 +39,5 @@ line_length = 79
 
 [tool.flake8]
 exclude = ".git,__pychache__,venv,__init__.py"
-max-line-length=79
-ignore =E203 , E266 ,  E501 , W503
+max-line-length = 79
+ignore = "E203, E266, E501, W503"
