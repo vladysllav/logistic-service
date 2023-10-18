@@ -9,9 +9,16 @@ readme = "README.md"
 python = "^3.11"
 django = "^4.2.6"
 djangorestframework = "^3.14.0"
+<<<<<<< HEAD
 black = "^23.9.1"
 isort = "^5.12.0"
 flake8 = "^6.1.0"
+=======
+psycopg2-binary = "^2.9.9"
+django-redis = "^5.4.0"
+uvicorn = "^0.23.2"
+python-dotenv = "^1.0.0"
+>>>>>>> 536168998b13c081525ec234d9221c15ca7648ca
 
 
 [tool.poetry.group.dev.dependencies]
