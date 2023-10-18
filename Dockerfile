@@ -13,4 +13,3 @@ RUN pip install --no-cache-dir poetry \
     && poetry config virtualenvs.create false \
     && poetry install
 
-CMD ["poetry", "run", "python", "src/manage.py", "runserver", "0.0.0.0:8000"]

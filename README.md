@@ -22,3 +22,9 @@ git clone  https://github.com/vladysllav/logistic-service.git
 ~~~python
  docker-compose up
   ~~~
+
+### Run pre- commit 
+~~~python
+poetry run pre-commit run 
+~~~
+
