@@ -7,5 +7,5 @@ migrate:
 	poetry run python src/manage.py migrate
 
 
-test:
+tests:
 	poetry run python src/manage.py test
