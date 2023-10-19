@@ -1,4 +1,4 @@
-# Logistic-service 
+# Logistic-service
 
 ## Running the Project Using Docker
 
@@ -23,8 +23,7 @@ git clone  https://github.com/vladysllav/logistic-service.git
  docker-compose up
   ~~~
 
-### Run pre- commit 
+### Run pre- commit
 ~~~python
-poetry run pre-commit run 
+poetry run pre-commit run
 ~~~
-
