@@ -28,6 +28,7 @@
       command: poetry install
       volumes:
         - .:/app
+        - /path/to/django/app:/app
 
     redis:
       image: redis:latest
