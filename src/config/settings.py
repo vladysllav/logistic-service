@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    'apps.users',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +153,5 @@ CACHES = {
         }
     }
 }
+
+AUTH_USER_MODEL = "users.CustomUser"
