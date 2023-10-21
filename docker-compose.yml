@@ -4,7 +4,8 @@
       build: .
       ports:
         - "8000:8000"
-      command: poetry run python src/manage.py runserver 0.0.0.0:8000
+      command: >
+        sh -c "poetry run python src/manage.py migrate && poetry run python src/manage.py runserver 0.0.0.0:8000"
 
 
       depends_on:
