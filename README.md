@@ -13,9 +13,12 @@ git clone  https://github.com/vladysllav/logistic-service.git
 #### To enter the logistic-service directory, you can use the cd command in your terminal or command line
 
 ~~~python
- cd logistic-service
-  ~~~
+cd logistic-service
 
+pip install poetry
+
+poetry install
+  ~~~
 
 #### Run Docker Compose:
 
