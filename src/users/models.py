@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from enum import Enum, unique
-from utils import RegEx
+from .utils import RegEx
 from django.core import validators as val
+from .managers import UserManager
 
 
 @unique
@@ -25,3 +26,11 @@ class User(AbstractUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_picture = models.URLField(blank=True, null=True)
+    username = None # to use email for login.
+
+    USERNAME_FIELD = 'email'
+
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
