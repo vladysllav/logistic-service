@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from enum import Enum, unique
-from utils import RegEx
+from users.utils import RegEx
 from django.core import validators as val
 
 
