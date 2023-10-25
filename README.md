@@ -4,29 +4,48 @@
 
 ### Start the project using Docker Compose:
 
+1. Clone the project:
+
+    ```bash
+    git clone https://github.com/vladysllav/logistic-service.git
+    ```
+
+2. Change to the `logistic-service` directory:
+
+    ```bash
+    cd logistic-service
+    ```
+
+3. Install Poetry:
+
+    ```bash
+    pip install poetry
+    ```
+
+4. Install project dependencies using Poetry:
+
+    ```bash
+    poetry install
+    ```
+
+5. Create a `.env` file and copy the necessary environment variable values into it. You can use the `env.example` file in the project's root as a reference.
+
+6. Build Docker containers (if not already built):
+
+    ```bash
+    docker-compose build
+    ```
+
+7. Start the project using Docker Compose:
+
+    ```bash
+    docker-compose up
+    ```
+
+8. To run pre-commit checks, use the following command:
+
+    ```bash
+    poetry run pre-commit run
+    ```
 
 
-#### clone project
-~~~python
-git clone  https://github.com/vladysllav/logistic-service.git
-  ~~~
-#### To enter the logistic-service directory, you can use the cd command in your terminal or command line
-
-~~~python
-cd logistic-service
-
-pip install poetry
-
-poetry install
-  ~~~
-
-#### Run Docker Compose:
-
-~~~python
- docker-compose up
-  ~~~
-
-### Run pre- commit
-~~~python
-poetry run pre-commit run
-~~~

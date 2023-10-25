@@ -1,10 +1,10 @@
 from django.db import transaction
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from src.users.models import User, UserType
+from users.models import User, UserType
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserSignUpSerializer(serializers.ModelSerializer):
     """ Serializer for user registration """
 
     class Meta:
@@ -15,13 +15,13 @@ class UserSerializer(serializers.ModelSerializer):
     @transaction.atomic
     def create(self, validated_data: dict):
         validated_data['user_type'] = UserType.CLIENT.value
-        user = User.objects.create_user(**validated_data)
+        user = super().create(validated_data)
         return user
 
 
-class TokenPairSerializer(TokenObtainPairSerializer):
+class UserSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['user'] = UserSerializer(self.user).data
+        data['user'] = UserSignUpSerializer(self.user).data
         return data
