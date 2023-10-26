@@ -4,9 +4,8 @@ from django.contrib.auth.models import AbstractUser, PermissionsMixin
 from django.core import validators as val
 from django.db import models
 
+from users.managers import UserManager
 from users.utils import RegEx
-
-from .managers import UserManager
 
 
 @unique
