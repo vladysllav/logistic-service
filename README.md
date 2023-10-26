@@ -42,10 +42,14 @@
     docker-compose up
     ```
 
-8. To run pre-commit checks, use the following command:
+8. To automatically run pre-commit before each commit, install the pre-commit hooks with the following command:
+
+ ```bash
+    poetry run pre-commit install
+ ```
+
+9. To run pre-commit checks, use the following command:
 
     ```bash
     poetry run pre-commit run
     ```
-
-
