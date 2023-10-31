@@ -12,6 +12,7 @@ from users.utils import RegEx
 class UserType(Enum):
     CLIENT = "client"
     ADMIN = "admin"
+    EMPLOYEE = "employee"
 
 
 class User(AbstractUser, PermissionsMixin):
@@ -35,7 +36,6 @@ class User(AbstractUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_picture = models.URLField(blank=True, null=True)
-    username = None  # to use email for login.
 
     USERNAME_FIELD = "email"
 
