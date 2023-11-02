@@ -1,6 +1,7 @@
 from enum import Enum, unique
 
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 from django.core import validators as val
 from django.db import models
 
@@ -10,12 +11,19 @@ from users.utils import RegEx
 
 @unique
 class UserType(Enum):
-    CLIENT = "client"
-    ADMIN = "admin"
-    EMPLOYEE = "employee"
+    CLIENT = "Client"
+    ADMIN = "Admin"
+    EMPLOYEE = "Employee"
 
 
-class User(AbstractUser, PermissionsMixin):
+@unique
+class UserStatus(Enum):
+    ACTIVE = "Active"
+    INACTIVE = "Inactive"
+    PENDING = "Pending"
+
+
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(
         max_length=128,
@@ -32,13 +40,31 @@ class User(AbstractUser, PermissionsMixin):
         max_length=10, choices=[(tag.value, tag.name) for tag in UserType]
     )
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     profile_picture = models.URLField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[(tag.value, tag.name) for tag in UserStatus],
+        default=UserStatus.ACTIVE.value,
+    )
+    # username = None
 
     USERNAME_FIELD = "email"
 
-    REQUIRED_FIELDS = []
-
     objects = UserManager()
+
+
+class Invitation(models.Model):
+    email = models.EmailField()
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=10,
+        choices=[(tag.value, tag.name) for tag in UserStatus],
+        default=UserStatus.PENDING.value,
+    )
+    token = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
