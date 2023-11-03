@@ -1,5 +1,4 @@
 import jwt
-from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser
@@ -8,7 +7,7 @@ from rest_framework.views import APIView
 
 from config import settings
 
-from .models import Invitation, InvitationStatus, User
+from .models import InvitationStatus, User
 from .repositories import DatabaseUserRepository
 from .serializers import InvitationSerializer, UserSerializer
 from .services import UserService
@@ -34,13 +33,9 @@ class SendInvitationView(APIView):
         serializer = InvitationSerializer(data=request.data)
         if serializer.is_valid():
             user_data = serializer.validated_data
-
             user = User.objects.create(status=InvitationStatus.PENDING.value, **user_data)
 
-            invitation = Invitation.objects.create(
-                email=user_data["email"], inviter=request.user, user=user
-            )
-            token = generate_activation_token(invitation.id)
+            token = generate_activation_token(user)
             send_invitation_email(user_data["email"], token)
 
             return Response(
@@ -53,7 +48,7 @@ class AcceptInvitationView(APIView):
     """View for accepting user invitations and updating user details.
 
     This view allows users to accept invitations sent to them by administrators.
-      It expects an activation token to be provided in the URL"""
+    It expects an activation token to be provided in the URL"""
 
     permission_classes = [AllowAny]
 
@@ -61,28 +56,22 @@ class AcceptInvitationView(APIView):
         token = kwargs.get("token")
         try:
             decoded_token = jwt.decode(token, settings.SECRET_KEY, algorithms=["HS256"])
-
-            invitation_id = decoded_token["invitation_id"]
-            invitation = Invitation.objects.get(pk=invitation_id)
-
-        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, Invitation.DoesNotExist):
+            user = User.objects.get(pk=decoded_token["user_id"])
+        except (jwt.ExpiredSignatureError, jwt.InvalidTokenError, User.DoesNotExist):
             return Response(
-                {"message": "Invalid token or invitation not found"},
+                {"message": "Invalid token or user not found"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         user_data = request.data
-        user = invitation.user
 
         serializer = UserSerializer(user, data=user_data, partial=True)
         if serializer.is_valid():
             user = serializer.save()
-            user.password = make_password(user_data["password"])
-            user.status = InvitationStatus.ACTIVE
+            user.set_password(user_data["password"])
+            new_status = InvitationStatus.ACTIVE.value
+            user.status = new_status
             user.save()
-
-            invitation.status = InvitationStatus.ACTIVE
-            invitation.save()
 
             return Response(
                 {"message": "Account activated successfully"}, status=status.HTTP_200_OK
