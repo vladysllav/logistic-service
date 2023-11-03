@@ -39,18 +39,10 @@ def send_invitation_email(email, token):
     send_mail(subject, message, from_email, recipient_list, fail_silently=False)
 
 
-def generate_activation_token(invitation_id):
+def generate_activation_token(self):
     """generate toker for users when superuser send invite"""
-    payload = {"invitation_id": invitation_id, "exp": datetime.utcnow() + timedelta(days=1)}
-    token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
-    return token
-
-
-# def generate_activation_token(user):
-#     """generate token for user activation"""
-#     payload = {
-#         "user": user.id,
-#         "exp": datetime.utcnow() + timedelta(days=1)
-#     }
-#     token = jwt.encode(payload, settings.SECRET_KEY, algorithm="HS256")
-#     return token
+    return jwt.encode(
+        {"user_id": self.pk, "exp": datetime.utcnow() + timedelta(days=1)},
+        settings.SECRET_KEY,
+        algorithm="HS256",
+    )
