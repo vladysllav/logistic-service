@@ -47,8 +47,6 @@ class InvitationSerializer(serializers.ModelSerializer):
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True)
-
     class Meta:
         model = User
         fields = ["last_name", "first_name", "password", "status"]
