@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Invitation, User, UserType
+from .models import Invitation, InvitationStatus, User, UserType
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -44,3 +44,18 @@ class InvitationSerializer(serializers.ModelSerializer):
         choices=[(tag.value, tag.name) for tag in UserType], required=False, allow_blank=True
     )
     phone_number = serializers.CharField(required=False, allow_blank=True)
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = User
+        fields = ["last_name", "first_name", "password", "status"]
+
+    def update(self, instance, validated_data):
+        instance.status = InvitationStatus.ACTIVE.value
+        instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.save()
+        return instance

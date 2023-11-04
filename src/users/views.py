@@ -9,7 +9,7 @@ from config import settings
 
 from .models import InvitationStatus, User
 from .repositories import DatabaseUserRepository
-from .serializers import InvitationSerializer, UserSerializer
+from .serializers import InvitationSerializer, UserCreateSerializer, UserSerializer
 from .services import UserService
 from .utils import generate_activation_token, send_invitation_email
 
@@ -65,12 +65,11 @@ class AcceptInvitationView(APIView):
 
         user_data = request.data
 
-        serializer = UserSerializer(user, data=user_data, partial=True)
+        serializer = UserCreateSerializer(user, data=user_data)
+
         if serializer.is_valid():
             user = serializer.save()
-            user.set_password(user_data["password"])
-            new_status = InvitationStatus.ACTIVE.value
-            user.status = new_status
+            user.set_password("password")
             user.save()
 
             return Response(
