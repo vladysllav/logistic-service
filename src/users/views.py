@@ -68,9 +68,7 @@ class AcceptInvitationView(APIView):
         serializer = UserCreateSerializer(user, data=user_data)
 
         if serializer.is_valid():
-            user = serializer.save()
-            user.set_password("password")
-            user.save()
+            serializer.save()
 
             return Response(
                 {"message": "Account activated successfully"}, status=status.HTTP_200_OK

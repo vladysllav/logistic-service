@@ -53,6 +53,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         instance.status = InvitationStatus.ACTIVE.value
+        instance.set_password(validated_data["password"])
         instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.save()
