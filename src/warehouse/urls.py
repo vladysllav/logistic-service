@@ -1,9 +1,9 @@
 from django.urls import path
 
-from .views import WarehouseAPIDestroyView, WarehouseAPIList, WarehouseAPIUpdate
+from .views import ListCreate, RetrieveDestroy, RetrieveUpdate
 
 urlpatterns = [
-    path("", WarehouseAPIList.as_view(), name="list"),
-    path("<int:pk>/", WarehouseAPIUpdate.as_view()),
-    path("delete/<int:pk>/", WarehouseAPIDestroyView.as_view()),
+    path("", ListCreate.as_view(), name="list"),
+    path("<int:pk>/", RetrieveUpdate.as_view()),
+    path("delete/<int:pk>/", RetrieveDestroy.as_view()),
 ]

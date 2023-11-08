@@ -53,8 +53,3 @@
     ```bash
     poetry run pre-commit run
     ```
-10. Install postgis:
-
-    ```bash
-    pip install postgis
-    ```

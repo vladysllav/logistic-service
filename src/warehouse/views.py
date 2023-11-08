@@ -1,24 +1,23 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAdminUser
 
 from .models import Warehouse
 from .permissions import IsAdminOrReadOnly
 from .serializers import WarehouseSerializer
 
 
-class WarehouseAPIList(generics.ListCreateAPIView):
+class ListCreate(generics.ListCreateAPIView):
     queryset = Warehouse.objects.all()
     serializer_class = WarehouseSerializer
     permission_classes = (IsAdminOrReadOnly,)
 
 
-class WarehouseAPIUpdate(generics.RetrieveUpdateAPIView):
+class RetrieveUpdate(generics.RetrieveUpdateAPIView):
     queryset = Warehouse.objects.all()
     serializer_class = WarehouseSerializer
     permission_classes = (IsAdminOrReadOnly,)
 
 
-class WarehouseAPIDestroyView(generics.RetrieveDestroyAPIView):
+class RetrieveDestroy(generics.RetrieveDestroyAPIView):
     queryset = Warehouse.objects.all()
     serializer_class = WarehouseSerializer
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAdminOrReadOnly,)
