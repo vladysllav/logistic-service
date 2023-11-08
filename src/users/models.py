@@ -1,21 +1,37 @@
 from enum import Enum, unique
 
-from django.contrib.auth.models import AbstractUser, PermissionsMixin
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
 from django.core import validators as val
 from django.db import models
+from django.utils.translation import gettext as _
 
-from users.managers import UserManager
-from users.utils import RegEx
+from .managers import UserManager
+from .utils import RegEx
+
+
+class TimesumpedModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
 
 
 @unique
 class UserType(Enum):
-    CLIENT = "client"
-    ADMIN = "admin"
-    EMPLOYEE = "employee"
+    CLIENT = "Client"
+    ADMIN = "Admin"
+    EMPLOYEE = "Employee"
 
 
-class User(AbstractUser, PermissionsMixin):
+class InvitationStatus(models.TextChoices):
+    ACTIVE = "Active", _("Active")
+    INACTIVE = "Inactive", _("Inactive")
+    PENDING = "Pending", _("Pending")
+
+
+class User(TimesumpedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     password = models.CharField(
         max_length=128,
@@ -32,13 +48,25 @@ class User(AbstractUser, PermissionsMixin):
         max_length=10, choices=[(tag.value, tag.name) for tag in UserType]
     )
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     profile_picture = models.URLField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=InvitationStatus.choices,
+        default=InvitationStatus.ACTIVE,
+    )
 
     USERNAME_FIELD = "email"
 
-    REQUIRED_FIELDS = []
-
     objects = UserManager()
+
+
+class Invitation(TimesumpedModel, models.Model):
+    email = models.EmailField()
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=10,
+        choices=InvitationStatus.choices,
+        default=InvitationStatus.PENDING,
+    )

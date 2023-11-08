@@ -3,8 +3,8 @@
 import django.contrib.auth.models
 import django.contrib.auth.validators
 import django.core.validators
-from django.db import migrations, models
 import django.utils.timezone
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -18,8 +18,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="User",
             fields=[
-                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("last_login", models.DateTimeField(blank=True, null=True, verbose_name="last login")),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "last_login",
+                    models.DateTimeField(blank=True, null=True, verbose_name="last login"),
+                ),
                 (
                     "is_superuser",
                     models.BooleanField(
@@ -31,11 +42,15 @@ class Migration(migrations.Migration):
                 (
                     "username",
                     models.CharField(
-                        error_messages={"unique": "A user with that username already exists."},
+                        error_messages={
+                            "unique": "A user with that username already exists."
+                        },
                         help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
                         max_length=150,
                         unique=True,
-                        validators=[django.contrib.auth.validators.UnicodeUsernameValidator()],
+                        validators=[
+                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                        ],
                         verbose_name="username",
                     ),
                 ),
@@ -47,7 +62,12 @@ class Migration(migrations.Migration):
                         verbose_name="staff status",
                     ),
                 ),
-                ("date_joined", models.DateTimeField(default=django.utils.timezone.now, verbose_name="date joined")),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
                 ("email", models.EmailField(max_length=254, unique=True)),
                 (
                     "password",
@@ -72,7 +92,9 @@ class Migration(migrations.Migration):
                     models.CharField(
                         max_length=30,
                         validators=[
-                            django.core.validators.RegexValidator("^[a-zA-Z]{2,20}$", "only letters min 2 max 20 ch")
+                            django.core.validators.RegexValidator(
+                                "^[a-zA-Z]{2,20}$", "only letters min 2 max 20 ch"
+                            )
                         ],
                     ),
                 ),
@@ -81,12 +103,19 @@ class Migration(migrations.Migration):
                     models.CharField(
                         max_length=30,
                         validators=[
-                            django.core.validators.RegexValidator("^[a-zA-Z]{2,20}$", "only letters min 2 max 20 ch")
+                            django.core.validators.RegexValidator(
+                                "^[a-zA-Z]{2,20}$", "only letters min 2 max 20 ch"
+                            )
                         ],
                     ),
                 ),
                 ("dob", models.DateField(blank=True, null=True)),
-                ("user_type", models.CharField(choices=[("client", "CLIENT"), ("admin", "ADMIN")], max_length=10)),
+                (
+                    "user_type",
+                    models.CharField(
+                        choices=[("client", "CLIENT"), ("admin", "ADMIN")], max_length=10
+                    ),
+                ),
                 ("phone_number", models.CharField(blank=True, max_length=15, null=True)),
                 ("is_active", models.BooleanField(default=True)),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
@@ -96,7 +125,8 @@ class Migration(migrations.Migration):
                     "groups",
                     models.ManyToManyField(
                         blank=True,
-                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        help_text="The groups this user belongs to. A user will get all "
+                        "permissions granted to each of their groups.",
                         related_name="user_set",
                         related_query_name="user",
                         to="auth.group",
