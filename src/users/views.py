@@ -1,4 +1,4 @@
-    import jwt
+import jwt
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser
