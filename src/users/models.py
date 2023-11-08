@@ -45,7 +45,9 @@ class User(TimesumpedModel, AbstractBaseUser, PermissionsMixin):
     )
     dob = models.DateField(null=True, blank=True)
     user_type = models.CharField(
-        max_length=10, choices=[(tag.value, tag.name) for tag in UserType]
+        max_length=10,
+        choices=[(tag.value, tag.name) for tag in UserType],
+        default=UserType.CLIENT.value,
     )
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     is_staff = models.BooleanField(default=False)

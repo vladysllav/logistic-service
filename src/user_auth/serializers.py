@@ -30,3 +30,10 @@ class TokenSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         data["user"] = UserSerializer(self.user).data
         return data
+
+
+class GoogleAuth(serializers.Serializer):
+    """Serializer for google"""
+
+    email = serializers.EmailField()
+    token = serializers.CharField()
