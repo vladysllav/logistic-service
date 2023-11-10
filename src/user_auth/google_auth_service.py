@@ -21,7 +21,14 @@ def check_google_auth(google_user: GoogleAuth) -> dict:
     except ValueError:
         raise AuthenticationFailed(code=403, detail="bad token google")
 
-    user, _ = User.objects.get_or_create(email=google_user["email"])
+    try:
+        user = User.objects.get(email=google_user["email"])
+        if not user.is_google_auth:
+            raise AuthenticationFailed(
+                code=403, detail="User already registered with email and password"
+            )
+    except User.DoesNotExist:
+        user = User.objects.create(email=google_user["email"], is_google_auth=True)
 
     return create_token(user.id)
 
@@ -29,22 +36,10 @@ def check_google_auth(google_user: GoogleAuth) -> dict:
 def create_token(user_id: int) -> dict:
     """create token"""
     access_token_expires = timedelta(minutes=60 * 24)
+    expire = datetime.utcnow() + access_token_expires
+    to_encode = {"user_id": user_id, "exp": expire, "sub": "access"}
+    access_token = jwt.encode(to_encode, settings.SECRET_KEY, algorithm="HS256")
     return {
         "user_id": user_id,
-        "access_token": create_access_token(
-            data={"user_id": user_id}, expires_delta=access_token_expires
-        ),
-        "token_type": "Token",
+        "access_token": access_token,
     }
-
-
-def create_access_token(data: dict, expires_delta: timedelta = None):
-    """create access token"""
-    to_encode = data.copy()
-    if expires_delta is not None:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
-    to_encode.update({"exp": expire, "sub": "access"})
-    encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm="HS256")
-    return encoded_jwt
