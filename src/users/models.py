@@ -33,6 +33,7 @@ class InvitationStatus(models.TextChoices):
 
 class User(TimesumpedModel, AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
+    is_google_auth = models.BooleanField(default=False)
     password = models.CharField(
         max_length=128,
         validators=[val.RegexValidator(RegEx.PASSWORD.pattern, RegEx.PASSWORD.msg)],
