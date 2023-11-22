@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install pytest poetry
+          pip install pytest poetry pre-commit
       - name: Run Unit Tests
         run: |
           pytest || echo "No tests found, skipping..."
