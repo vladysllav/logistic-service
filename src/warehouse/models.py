@@ -8,3 +8,9 @@ class Warehouse(models.Model):
     image = models.CharField(max_length=255)
     location = PointField()
     area_size = models.IntegerField()
+    products = models.ManyToManyField(
+        "products.Product",
+        through="products.ProductItem",
+        verbose_name="Products",
+        blank=True,
+    )
