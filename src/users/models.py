@@ -22,7 +22,7 @@ class TimesumpedModel(models.Model):
 class UserType(Enum):
     CLIENT = "Client"
     ADMIN = "Admin"
-    EMPLOYEE = "Employee" 
+    EMPLOYEE = "Employee"
 
 
 class InvitationStatus(models.TextChoices):
