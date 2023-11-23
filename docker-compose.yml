@@ -13,7 +13,7 @@
         - redis
 
     db:
-      image: postgis/postgis
+      image: postgres:14
       volumes:
         - postgres_data:/var/lib/postgresql/data
       ports:
@@ -28,7 +28,7 @@
       build: .
       command: poetry install
       volumes:
-        - /path/to/web/application/dir:/app
+        - .:/app
         - /path/to/django/app:/app
 
     redis:
@@ -38,3 +38,4 @@
 
   volumes:
     postgres_data:
+
