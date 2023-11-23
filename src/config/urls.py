@@ -23,3 +23,4 @@ urlpatterns = [
     path("api/users/", include("users.urls")),
     path("api/warehouse/", include("warehouse.urls")),
 ]
+#test
