@@ -41,7 +41,8 @@ class InvitationSerializer(serializers.ModelSerializer):
     )
     first_name = serializers.CharField(required=False, allow_blank=True)
     user_type = serializers.ChoiceField(
-        choices=[(tag.value, tag.name) for tag in UserType], required=False, allow_blank=True
+        choices=[(tag.value, tag.name) for tag in UserType], required=False,
+        allow_blank=True
     )
     phone_number = serializers.CharField(required=False, allow_blank=True)
 
