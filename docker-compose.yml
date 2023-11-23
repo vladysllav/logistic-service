@@ -1,41 +1,38 @@
-  version: "3.8"
-  services:
-    web:
-      build: .
-      ports:
-        - "8000:8000"
-      command: >
-          sh -c "poetry run python src/manage.py migrate &&  poetry run python src/manage.py runserver 0.0.0.0:8000"
-      volumes:
-        - ./:/app/
-      depends_on:
-        - db
-        - redis
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    command: >
+        sh -c "poetry run python src/manage.py migrate &&  poetry run python src/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./:/app/
+    depends_on:
+      - db
+      - redis
 
-    db:
-      image: postgres:14
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      ports:
-        - "5433:5432"
-      environment:
-        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - POSTGRES_DB=${POSTGRES_DB}
-        - POSTGRES_USER=${POSTGRES_USER}
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
 
+  poetry:
+    build: .
+    command: poetry install
+    volumes:
+      - /path/to/django/app:/app
 
-    poetry:
-      build: .
-      command: poetry install
-      volumes:
-        - .:/app
-        - /path/to/django/app:/app
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
 
-    redis:
-      image: redis:latest
-      ports:
-        - "6379:6379"
-
-  volumes:
-    postgres_data:
-
+volumes:
+  postgres_data:
