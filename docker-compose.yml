@@ -28,7 +28,7 @@
       build: .
       command: poetry install
       volumes:
-        - .:/app
+        - .:/patch/app
         - /path/to/django/app:/app
 
     redis:
