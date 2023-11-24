@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from django.db import models
 
 from warehouse.models import Warehouse
@@ -8,14 +6,11 @@ from warehouse.models import Warehouse
 class Product(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=255)
-    photo = models.ImageField()
+    photo = models.CharField()
     sku = models.CharField(max_length=255)
     created_at = models.DateTimeField(verbose_name="Created", auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name="Last update", blank=True, null=True)
-
-    def save(self, *args, **kwargs):
-        self.updated_at = datetime.now()
-        super().save(*args, **kwargs)
+    updated_at = models.DateTimeField(verbose_name="Last update", auto_now_add=True)
+    warehouse = models.ManyToManyField(Warehouse, through="ProductItem", blank=True)
 
 
 class ProductItem(models.Model):

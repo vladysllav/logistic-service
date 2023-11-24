@@ -14,5 +14,3 @@ RUN pip install --no-cache-dir poetry \
 
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends binutils libproj-dev gdal-bin libgdal-dev python3-gdal
-
-RUN python -m pip install Pillow
