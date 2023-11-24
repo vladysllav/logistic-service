@@ -10,4 +10,4 @@ urlpatterns = [
         AcceptInvitationView.as_view(),
         name="accept-invitation",
     ),
-]
+] 
