@@ -25,4 +25,4 @@ urlpatterns = [
      path("api/warehouse/", include("warehouse.urls")),
 
 ]
-
+ 
