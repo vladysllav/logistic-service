@@ -20,4 +20,5 @@ jobs:
           ansible_start_docker_timeout: 600
           aws_ec2_instance_root_vol_size: 16
           docker_repo_app_directory: logistic-service
+          docker_install: True
           
