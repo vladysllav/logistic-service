@@ -17,6 +17,5 @@ jobs:
           aws_elb_app_port: 8000
           tf_state_bucket: dsjh-2
           aws_ec2_instance_type: t3.small
-          docker_install: true
-          docker_repo_app_directory: logistic-service
+          
 
