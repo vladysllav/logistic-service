@@ -20,4 +20,3 @@ jobs:
           ansible_start_docker_timeout: 600
           aws_ec2_instance_root_vol_size: 16
           
-
